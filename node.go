@@ -150,9 +150,17 @@ func (nd *Node) addFriends(infoMap map[string]string) ([]*Host, error) {
 	friendNames := strings.Split(friendString, ";")
 
 	for _, friend := range friendNames {
+
+		if friend == "" {
+			continue
+		}
 		friendInfo := strings.Split(friend, ":")
+		if len(friendInfo) != 2 {
+			continue
+		}
 		host := friendInfo[0]
 		port, _ := strconv.Atoi(friendInfo[1])
+
 		alias := NewHost(host, port)
 		node := nd.cluster.findAlias(alias)
 
